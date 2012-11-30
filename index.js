@@ -2,6 +2,8 @@ var fs = require('fs');
 var path = require('path');
 var http = require('http');
 var mkdirp = require('mkdirp');
+var which = require('which').sync;
+var gitCommand = which('git');
 
 var spawn = require('child_process').spawn;
 var EventEmitter = require('events').EventEmitter;
@@ -49,9 +51,9 @@ Git.prototype.create = function (repo, cb) {
         
         var dir = path.join(self.repoDir, repo);
         if (self.checkout) {
-            var ps = spawn('git', [ 'init', dir ]);
+            var ps = spawn(gitCommand, [ 'init', dir ]);
         } else {
-            var ps = spawn('git', [ 'init', '--bare', dir ]);
+            var ps = spawn(gitCommand, [ 'init', '--bare', dir ]);
         }
         
         var err = '';
